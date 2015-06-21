@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script><!-- jquery-2.1.2.js -->
+
+    <script>
+        $(document).ready (function () {
+            console.log ('About to get the website...') ;
+            try {
+                $.ajax(
+                    'http://' + window.location.host + '/nowhere',
+                    {
+                        success: function (result) {
+                            console.log (result) ;
+                        },
+                        error: function () {
+                            throw new Error ('Error getting the website') ;
+                        }
+                    }
+                ) ;
+            } catch (err) {
+                console.log ('Caught :' + err) ;
+            }
+            console.log ('Continuing about my business...') ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>

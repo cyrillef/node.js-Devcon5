@@ -1,0 +1,51 @@
+{
+	"name": "devcon5-sample",
+	"description": "A Node.js server sample for the DevCon5 conference",
+	"homepage": "http://around-the-corner.typepad.com/",
+	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cyrillef/workflow-node.js-server-view.and.data.api/issues"
+	},
+	"author": "Cyrille Fauvel",
+	"contributors": [
+		"Cyrille Fauvel <cyrille@autodesk.com>"
+	],
+	"license": "MIT",
+	"engines": {
+		"node": ">= 0.12.4",
+		"npm": ">= 2.10.1"
+	},
+	"scripts": {
+		"start": "node start.js"
+	},
+	"files": [
+		"LICENSE",
+		"README.md"
+	],
+	"keywords": [
+		"express",
+		"framework",
+		"web",
+		"rest",
+		"restful",
+		"router",
+		"app",
+		"api"
+	],
+	"dependencies": {
+		"express": ">= 4.12.3",
+		"request": ">= 2.55.0",
+		"request": ">= 2.55.0",
+		"body-parser": ">= 1.11.0",
+		"connect-multiparty": ">= 1.2.5",
+		"mkdirp": ">= 0.5.0",
+		"unirest": ">= 0.4.0",
+		"async": ">= 1.2.0",
+		"q": ">= 1.4.1",
+		"moment": ">= 2.10.3"
+	}
+}
