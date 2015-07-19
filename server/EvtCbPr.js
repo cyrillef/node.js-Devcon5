@@ -30,10 +30,11 @@ router.get ('/test', function (req, res) {
 	// https://github.com/joyent/node/blob/master/lib/fs.js
 	fs.readFile ('./test.txt', 'utf-8', function (err, content) {
 		if ( err )
-			console.log (err) ;
+			return (console.log (err)) ;
 
+        // successful code here
 	}) ;
-	// it will executes res.end() before calling the callback
+	// it will execute res.end() before calling the callback
 	res.end () ;
 }) ;
 

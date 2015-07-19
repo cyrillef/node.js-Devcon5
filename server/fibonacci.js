@@ -25,6 +25,8 @@ var async =require ('async') ;
 
 var router =express.Router () ;
 
+// Fibonacci - http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html#100
+
 //-----------------------------------------------------------------------------
 // Terms=40 2015-06-16T08:59:54+02:00
 // Exiting(40): 3.828
@@ -76,21 +78,25 @@ router.get ('/fibonacciopt', function (req, res) {
 }) ;
 
 //-----------------------------------------------------------------------------
-function fibonacci (n, m, res) {
+function fibonacci (n, m, cb) {
+    if ( n > 78 )
+        return (cb ('Result will exceed a int64 limit!', null)) ;
+
 	var am =[] ;
 	async.whilst (
 		function () {
 			return (n - am.length != 0) ;
 		},
 		function (callback) {
-			//console.log ('fibonacci compute') ;
-			am.push (am.length < 2 ? 1 : am [am.length - 2] + am [am.length - 1]) ;
-			callback (null) ;
-			//setTimeout (callback, 1000) ;
+            process.nextTick (function () {
+                am.push (am.length < 2 ? 1 : am [am.length - 2] + am [am.length - 1]) ;
+                callback (null) ;
+            }) ;
 		},
 		function (err) {
+            //if ( err ) {}
 			console.log ('fibonacci(' + n + ') callback') ;
-			res.json ({ 'fibonacci': am [n - 1] }) ;
+			cb (err, am [n - 1]) ;
 			console.log ('Returning(' + n + '): ' + moment ().diff (m, 'seconds', true)) ;
 		}
 	) ;
@@ -101,26 +107,31 @@ router.get ('/fibonacciasync', function (req, res) {
 	var terms =req.query.terms || 40 ;
 	var m =moment () ;
 	console.log ('Terms(' + terms + ') - ' + m.format ()) ;
-	fibonacci (terms, m, res) ;
+	fibonacci (terms, m, function (err, result) {
+        if ( err )
+            return (res.json ({ 'error': err })) ;
+        res.json ({ 'fibonacci': result }) ;
+    }) ;
 	console.log ('Exiting(' + terms + '): ' + moment ().diff (m, 'seconds', true)) ;
 }) ;
 
 //-----------------------------------------------------------------------------
-function fibonacci_slow (n, m, res) {
+function fibonacci_slow (n, m, cb) {
 	var am =[] ;
 	async.whilst (
 		function () {
-			return n - am.length != 0 ;
+			return (n - am.length != 0) ;
 		},
 		function (callback) {
-			//console.log ('fibonacci compute') ;
-			am.push (am.length < 2 ? 1 : am [am.length - 2] + am [am.length - 1]) ;
-			//callback (null) ;
-			setTimeout (callback, 1000) ; // get me slow
+            process.nextTick (function () {
+			    am.push (am.length < 2 ? 1 : am [am.length - 2] + am [am.length - 1]) ;
+			    //callback (null) ;
+			    setTimeout (callback, 1000) ; // get me slow
+            }) ;
 		},
 		function (err) {
 			console.log ('fibonaccislow(' + n + ') callback') ;
-			res.json ({ 'fibonacci': am [n - 1] }) ;
+			cb (null, am [n - 1]) ;
 			console.log ('Returning(' + n + '): ' + moment ().diff (m, 'seconds', true)) ;
 		}
 	) ;
@@ -131,7 +142,9 @@ router.get ('/fibonacciasyncslow', function (req, res) {
 	var terms =req.query.terms || 40 ;
 	var m =moment () ;
 	console.log ('Terms(' + terms + ') - ' + m.format ()) ;
-	fibonacci_slow (terms, m, res) ;
+	fibonacci_slow (terms, m, function (err, result) {
+        res.json ({ 'fibonacci': result }) ;
+    }) ;
 	console.log ('Exiting(' + terms + '): ' + moment ().diff (m, 'seconds', true)) ;
 }) ;
 

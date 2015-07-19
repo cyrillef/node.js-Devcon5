@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script><!-- jquery-2.1.2.js -->
+
+    <script>
+        function test1 () {
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacciasync',
+                type: 'get',
+                data:{ terms: 40 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacciasync',
+                type: 'get',
+                data: { terms: 60 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+        } ;
+
+        $(document).ready (function () {
+            // async '/api/fibonacciasync?terms=40'
+            // async '/api/fibonacciasync?terms=60'
+            test1 () ;
+            // Results:
+            //   Terms(40) - 2015-06-14T13:54:07+02:00
+            //   fibonacci(40) callback
+            //   Returning(40): 0.001
+            //   fibonacci(40) exiting
+            //   Exiting(40): 0.001
+            //   Terms(60) - 2015-06-14T13:54:07+02:00
+            //   fibonacci(60) callback
+            //   Returning(60): 0
+            //   fibonacci(60) exiting
+            //   Exiting(60): 0
+            //
+            // not really meaningful, let's see test2() I.e. node is too quick ;)
+
+            window.history.back () ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>

@@ -22,11 +22,13 @@ var express =require ('express') ;
 var request =require ('request') ;
 var bodyParser =require ('body-parser') ;
 
-var fibonacci =require ('./fibonacci') ;
 var EvtCbPr =require ('./EvtCbPr') ;
-var async_samples =require ('./async-samples') ;
-var promises_samples =require ('./promises-samples') ;
-var generators_samples =require ('./generators-samples') ;
+var async_raw_impl =require ('./async-raw-impl') ;
+var async_lib =require ('./async-lib') ;
+var fibonacci =require ('./fibonacci') ;
+var promises =require ('./promises') ;
+var mod1 =require ('./mod1') ;
+var generators =require ('./generators') ;
 
 var async_test =require ('./async-test') ;
 
@@ -35,14 +37,15 @@ var app =express () ;
 app.use (bodyParser.urlencoded ({ extended: false })) ;
 app.use (bodyParser.json ()) ;
 app.use (express.static (__dirname + '/../www')) ;
-app.use ('/api', fibonacci) ;
 app.use ('/api', EvtCbPr) ;
-app.use ('/api', async_samples) ;
-app.use ('/api', promises_samples) ;
-app.use ('/api', generators_samples) ;
+app.use ('/api', async_raw_impl) ;
+app.use ('/api', fibonacci) ;
+app.use ('/api', promises) ;
+app.use ('/api', mod1) ;
+app.use ('/api', generators) ;
 
 app.use ('/test', async_test) ;
 
-app.set ('port', process.env.PORT || 80) ;
+app.set ('port', process.env.PORT || 8000) ;
 
 module.exports =app ;

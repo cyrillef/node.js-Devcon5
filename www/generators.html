@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script><!-- jquery-2.1.2.js -->
+
+    <script>
+        function test0 () {
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonaccigenerators',
+                type: 'get',
+                data:{ terms: 77 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonaccigenerators',
+                type: 'get',
+                data: { terms: 75 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+        } ;
+
+        $(document).ready (function () {
+            test0 () ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script><!-- jquery-2.1.2.js -->
+
+    <script>
+        function test4 () {
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacciasyncslow',
+                type: 'get',
+                data: { terms: 4 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacci',
+                type: 'get',
+                data: { terms: 40 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacciasync',
+                type: 'get',
+                data: { terms: 35 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+        } ;
+
+        $(document).ready (function () {
+            // async '/api/fibonacciasyncslow?terms=4'
+            // blocking '/api/fibonacci?terms=40'
+            // async '/api/fibonacciasync?terms=35'
+            test4 () ;
+            // Results
+            //   Terms(4) - 2015-06-14T14:06:52+02:00
+            //   fibonaccislow(4) exiting
+            //   Exiting(4): 0
+            //   Terms=40 2015-06-14T14:06:52+02:00
+            //   Exiting(40): 9.731
+            //   Terms(35) - 2015-06-14T14:07:02+02:00
+            //   fibonacci(35) callback
+            //   Returning(35): 0
+            //   fibonacci(35) exiting
+            //   Exiting(35): 0.001
+            //   fibonaccislow(4) callback
+            //   Returning(4): 12.737
+            //
+            // same as before, but we can also see the 3rd call starts after the 2nd call which is blocking. If we had a 4th call,
+            // it would start immediately after the 3rd. What is interesting is none of the 2 async calls is blocking the other one.
+
+            window.history.back () ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>

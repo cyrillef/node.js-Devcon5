@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script><!-- jquery-2.1.2.js -->
+
+    <script>
+        function test3 () {
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacciasyncslow',
+                type: 'get',
+                data: { terms: 4 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+            $.ajax ({
+                url: 'http://' + window.location.host + '/api/fibonacci',
+                type: 'get',
+                data: { terms: 40 },
+                contentType: 'application/json',
+                complete: null
+            }).done (function (projects) {
+
+            }) ;
+        } ;
+
+        $(document).ready (function () {
+            // async '/api/fibonacciasyncslow?terms=4'
+            // blocking '/api/fibonacci?terms=40'
+            test3 () ;
+            // Results:
+            //   Terms(4) - 2015-06-14T14:01:45+02:00
+            //   fibonaccislow(4) exiting
+            //   Exiting(4): 0
+            //   Terms=40 2015-06-14T14:01:45+02:00
+            //   Exiting(40): 10.111
+            //   fibonaccislow(4) callback
+            //   Returning(4): 13.116
+            //
+            // as expected the 2nd call is started before the 1st async one returns a value, but we can see that
+            // the 2nd call is blocking the process. Where we expected ~4s for the async call to execute, we got 2nd
+            // call duration + 3s - why 3s and not 4s? because the 1st iteration of the 1st call was blocking for 1s,
+            // so the 2nd call starts 1s later than expected.
+
+            window.history.back () ;
+        }) ;
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>
