@@ -67,7 +67,7 @@ var a =[], fibonacci_opt =function (n) {
 		a [n] =x ;
 		return (x) ;
 	}
-}
+} ;
 
 router.get ('/fibonacciopt', function (req, res) {
 	var terms =req.query.terms || 40 ;

@@ -29,6 +29,7 @@ var fibonacci =require ('./fibonacci') ;
 var promises =require ('./promises') ;
 var mod1 =require ('./mod1') ;
 var generators =require ('./generators') ;
+//var es7 =require ('./nodent-lib') ;
 
 var async_test =require ('./async-test') ;
 
@@ -43,6 +44,7 @@ app.use ('/api', fibonacci) ;
 app.use ('/api', promises) ;
 app.use ('/api', mod1) ;
 app.use ('/api', generators) ;
+//app.use ('/es7', es7) ;
 
 app.use ('/test', async_test) ;
 

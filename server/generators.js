@@ -22,6 +22,7 @@ var express =require ('express') ;
 var request =require ('request') ;
 var async =require ('async') ;
 var moment =require ('moment') ;
+var Q =require ('Q') ;
 
 var router =express.Router () ;
 
@@ -117,6 +118,23 @@ function* fibonacciGenerator () {
     }
 }
 
+function* fibonacciGeneratorLimit (n) {
+    n =n || 1 ;
+    var fn1 =1 ;
+    var fn2 =1 ;
+    var i =0 ;
+    while ( i++ < n ) {
+        var current =fn2 ;
+        fn2 =fn1 ;
+        fn1 =fn1 + current ;
+        var reset =yield current ;
+        if ( reset ) {
+            fn1 =1 ;
+            fn2 =1 ;
+        }
+    }
+}
+
 function fibonacci (n, cb) {
 /*    if ( n > 78 ) {
         if ( cb )
@@ -175,29 +193,6 @@ router.get ('/fibonaccigenerators', function (req, res) {
         console.log ('Returning(' + terms + '): ' + moment ().diff (m, 'seconds', true)) ;
     }) ;
     console.log ('Exiting(' + terms + '): ' + moment ().diff (m, 'seconds', true)) ;
-}) ;
-
-//-----------------------------------------------------------------------------
-function request (url) {
-    // this is where we're hiding the asynchronicity,
-    // away from the main code of our generator
-    // `it.next(..)` is the generator's iterator-resume
-    // call
-    //makeAjaxCall( url, function(response){
-    //    it.next( response );
-    //} );
-    // Note: nothing returned here!
-}
-
-function *main () {
-    //var result1 =yield request ("http://www.google.com") ;
-    //var result2 =yield request ("http://www.yahoo.com") ;
-}
-
-router.get ('/pagesgenerators', function (req, res) {
-    var it =main () ;
-    it.next () ; // get it all started
-    res.end () ;
 }) ;
 
 //-----------------------------------------------------------------------------
