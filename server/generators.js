@@ -118,23 +118,6 @@ function* fibonacciGenerator () {
     }
 }
 
-function* fibonacciGeneratorLimit (n) {
-    n =n || 1 ;
-    var fn1 =1 ;
-    var fn2 =1 ;
-    var i =0 ;
-    while ( i++ < n ) {
-        var current =fn2 ;
-        fn2 =fn1 ;
-        fn1 =fn1 + current ;
-        var reset =yield current ;
-        if ( reset ) {
-            fn1 =1 ;
-            fn2 =1 ;
-        }
-    }
-}
-
 function fibonacci (n, cb) {
 /*    if ( n > 78 ) {
         if ( cb )
