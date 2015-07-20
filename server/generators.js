@@ -118,7 +118,7 @@ function* fibonacciGenerator () {
 }
 
 function fibonacci (n, cb) {
-    if ( n > 78 ) {
+/*    if ( n > 78 ) {
         if ( cb )
             return (cb ('Result will exceed a int64 limit!', null)) ;
         return (new Promise (function (resolve, reject) { reject (new Error ('Result will exceed a int64 limit!')) ; })) ;
@@ -129,6 +129,39 @@ function fibonacci (n, cb) {
     if ( cb )
         return (cb (null, sequence.next ().value)) ;
     return (new Promise (function (resolve, reject) { resolve (sequence.next ().value) ; })) ;
+*/
+    if ( n > 78 ) {
+        if ( cb )
+            return (cb ('Result will exceed a int64 limit!', null)) ;
+        return (new Promise (function (resolve, reject) { reject (new Error ('Result will exceed a int64 limit!')) ; })) ;
+    }
+    var sequence =fibonacciGenerator () ;
+    var promisePool =Array.apply (null, Array (n - 1)).map (function (val, index) {
+        return (
+            new Promise (function (resolve, reject) {
+                //process.nextTick (function () {
+                //    setTimeout (
+                //        function () {
+                          resolve (sequence.next ().value) ;
+                //        },
+                //        100
+                //    ) ;
+                //}) ;
+            })
+        ) ;
+    }) ;
+    return (Promise.all (promisePool)
+        .then (function (data) {
+            if ( cb )
+                return (cb (null, sequence.next ().value)) ;
+            return (sequence.next ().value) ;
+        })
+        .catch (function (err) {
+            if ( cb )
+                return (cb (err, null)) ;
+            return (new Promise (function (resolve, reject) { reject (new Error ('An Error occured!')) })) ;
+        })
+    ) ;
 }
 
 router.get ('/fibonaccigenerators', function (req, res) {
