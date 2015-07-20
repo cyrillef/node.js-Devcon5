@@ -105,7 +105,7 @@ function test () {
     promise
         .then (function (message) {
             console.log (message) ;
-            //throw new Error ('argh!') ;
+            throw new Error ('argh!') ;
         })
         .catch (
             function (err) {
@@ -113,6 +113,7 @@ function test () {
         })
     ;
 }
+//test();
 
 //-----------------------------------------------------------------------------
 function fibonacci (n) {
