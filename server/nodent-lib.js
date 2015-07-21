@@ -68,3 +68,51 @@ router.get ('/fibonaccies7', function (req, res) {
 
 //-----------------------------------------------------------------------------
 module.exports =router ;
+
+
+function getUserAvatar (name) {
+    var profile =getUserProfile (name) ;
+    var avatar =getAvatar (profile.avatar) ;
+    return (avatar) ;
+}
+
+function getUserAvatar (name, cb) {
+    getUserProfile (name, function (error, profile) {
+        if ( error ) {
+            cb (error) ;
+        } else {
+            getAvatar (profile.avatar, function (error, avatar) {
+                if ( error ) {
+                    cb (error) ;
+                } else {
+                    cb (null, avatar) ;
+                }
+            }) ;
+        }
+    }) ;
+}
+
+function getUserAvatar (name) {
+    return (getUserProfile (name)
+        .then (function (profile) {
+            return (getAvatar (profile.avatar)) ;
+        })
+    ) ;
+}
+
+function* getUserAvatar (name) {
+    var profile =yield getUserProfile (name) ;
+    var avatar =yield getAvatar (profile.avatart) ;
+    return (avatar) ;
+}
+Q.spawn (getUserAvatar)
+    .then (function (data) {
+    })
+;
+
+async function getUserAvatar (name) {
+    var profile =await getUserProfile (name) ;
+    var avatar =await getAvatar (profile.avatar) ;
+    return (avatar) ;
+}
+
